@@ -70,7 +70,7 @@ include("includes/navbar.php");
                 <h1>Quản Lý Bài Viết</h1>
                 <p>Thêm mới, chỉnh sửa và quản lý nội dung bài viết, tin tức</p>
             </div>
-            <a href="<?php echo BASE_URL; ?>/admin/thembaiviet.php" class="btn-primary" title="Thêm bài viết mới">
+            <a href="<?php echo BASE_URL; ?>/thembaiviet.php" class="btn-primary" title="Thêm bài viết mới">
                 <i class="fa-solid fa-plus"></i> <span>Thêm bài viết mới</span>
             </a>
         </div>
@@ -141,7 +141,7 @@ include("includes/navbar.php");
                                 <td><span class="badge-status ' . $stt_class . '">' . htmlspecialchars($art['status']) . '</span></td>
                                 <td>
                                     <div class="action-buttons">
-                                        <a href="' . BASE_URL . '/admin/capnhatbaiviet.php?id=' . $art['id'] . '" class="btn-action btn-edit" title="Chỉnh sửa">
+                                        <a href="' . BASE_URL . '/capnhatbaiviet.php?id=' . $art['id'] . '" class="btn-action btn-edit" title="Chỉnh sửa">
                                             <i class="fa-regular fa-pen-to-square"></i>
                                         </a>
                                         <button type="button" class="btn-action btn-delete nutxoa" title="Xóa" data-id="' . $art['id'] . '" data-name="' . htmlspecialchars($art['title']) . '">
