@@ -7,7 +7,8 @@ $single_article = null;
 
 if (!empty($article_id)) {
     $single_article = get_article_by_id($article_id);
-    if (!$single_article || $single_article['status'] !== 'published') {
+    // SỬA LỖI 1: Đổi 'published' thành 'Xuất bản' cho khớp với Admin
+    if (!$single_article || $single_article['status'] !== 'Xuất bản') {
         set_flash('error', 'Bài viết không tồn tại.');
         redirect('news.php');
     }
@@ -72,11 +73,12 @@ require_once __DIR__ . '/includes/header.php';
                 <h1 class="section-title"><i class="fas fa-newspaper text-primary"></i> Tin Tức & Tư Vấn Công Nghệ</h1>
                 <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 4px;">Cập nhật xu hướng smartphone, mẹo sử dụng và đánh giá sản phẩm mới nhất.</p>
             </div>
-
-            <!-- <form action="<?php echo BASE_URL; ?>/news.php" method="GET" style="display:flex; gap:8px;">
+            
+            <!-- SỬA LỖI 2: Đã mở khóa Form Tìm kiếm -->
+            <form action="<?php echo BASE_URL; ?>/news.php" method="GET" style="display:flex; gap:8px;">
                 <input type="text" name="search" class="form-control" placeholder="Tìm bài viết..." value="<?php echo sanitize($search); ?>" style="width:240px; padding:8px 14px;">
                 <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-search"></i></button>
-            </form> -->
+            </form>
         </div>
 
         <?php if (!empty($articles)): ?>
@@ -87,10 +89,12 @@ require_once __DIR__ . '/includes/header.php';
                             <img src="<?php echo get_image_src($article['thumbnail'], $article['title'], 'baiviet'); ?>" alt="<?php echo sanitize($article['title']); ?>">
                         </div>
                         <div class="article-body">
-                            <div class="article-date"><i class="far fa-calendar-alt"></i> <?php echo date('d/m/Y', strtotime($article['published_at'])); ?></div>
+                            <div class="article-date"><i class="far fa-calendar-alt"></i> <?php echo date('d/m/Y', strtotime($article['published_at'] ?? $article['created_at'])); ?></div>
                             <h2 class="article-title"><?php echo sanitize($article['title']); ?></h2>
                             <p class="article-summary"><?php echo sanitize($article['summary']); ?></p>
-                            <a href="<?php echo BASE_URL; ?>/news.php?id=<?php echo $article['id']; ?>" class="btn btn-outline btn-sm" style="margin-top:auto; align-self: flex-start;">
+                            
+                            <!-- SỬA LỖI 3: Đã mở khóa Nút "Đọc bài viết" -->
+                            <a href="<?php echo BASE_URL; ?>/chitietbaiviet.php?id=<?php echo $article['id']; ?>" class="btn btn-outline btn-sm" style="margin-top:auto; align-self: flex-start;">
                                 Đọc bài viết <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>

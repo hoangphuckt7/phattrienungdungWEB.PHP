@@ -115,25 +115,46 @@ class DataHelper extends csdltmdt
     public function get_all_articles(string $search = ''): array
     {
         $db = $this->db();
+        // Xóa bỏ is_visible=1 khỏi câu lệnh WHERE
         $sql = "SELECT id, article_code, category_id, title, summary, content, thumbnail, author, view_count, status, is_visible, published_at
-                FROM articles WHERE is_visible=1 AND status='Xuất bản'";
+                FROM articles WHERE status='Xuất bản'";
         if ($search !== '') {
             $sql .= ' AND (title LIKE ? OR summary LIKE ?) ORDER BY published_at DESC, id DESC';
-            $stmt = $db->prepare($sql); $like = '%' . trim($search) . '%'; $stmt->bind_param('ss', $like, $like);
+            $stmt = $db->prepare($sql); 
+            $like = '%' . trim($search) . '%'; 
+            $stmt->bind_param('ss', $like, $like);
         } else {
-            $sql .= ' ORDER BY published_at DESC, id DESC'; $stmt = $db->prepare($sql);
+            $sql .= ' ORDER BY published_at DESC, id DESC'; 
+            $stmt = $db->prepare($sql);
         }
-        $stmt->execute(); $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC); $stmt->close(); return $rows;
+        $stmt->execute(); 
+        $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC); 
+        $stmt->close(); 
+        return $rows;
     }
 
     /** Lấy bài viết công khai theo ID; bài nháp, ẩn hoặc không tồn tại trả về null. */
     public function get_article_by_id($id): ?array
     {
         $db = $this->db(); $id = (int)$id;
-        $stmt = $db->prepare("SELECT id, article_code, category_id, title, summary, content, thumbnail, author, view_count, status, is_visible, published_at FROM articles WHERE id=? AND is_visible=1 AND status='Xuất bản' LIMIT 1");
-        $stmt->bind_param('i', $id); $stmt->execute(); $row = $stmt->get_result()->fetch_assoc(); $stmt->close(); return $row ?: null;
+        // Xóa bỏ is_visible=1 khỏi câu lệnh WHERE
+        $stmt = $db->prepare("SELECT id, article_code, category_id, title, summary, content, thumbnail, author, view_count, status, is_visible, published_at FROM articles WHERE id=? AND status='Xuất bản' LIMIT 1");
+        $stmt->bind_param('i', $id); 
+        $stmt->execute(); 
+        $row = $stmt->get_result()->fetch_assoc(); 
+        $stmt->close(); 
+        return $row ?: null;
     }
-
+	/** Tăng số lượt xem của bài viết lên 1 */
+public function increment_article_view($id): void
+{
+    $db = $this->db();
+    $id = (int)$id;
+    $stmt = $db->prepare('UPDATE articles SET view_count = view_count + 1 WHERE id = ?');
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $stmt->close();
+}
     /** Trả về các mặt hàng trong giỏ hiện tại; giỏ chưa tạo thì trả về mảng rỗng. */
     public function get_cart_items(): array { return $_SESSION['cart'] ?? []; }
 
@@ -405,6 +426,24 @@ class DataHelper extends csdltmdt
         $oid=(int)$r['id']; $stmt=$db->prepare('SELECT product_id,product_name,color,storage,unit_price AS price,quantity,unit_price*quantity AS subtotal FROM order_items WHERE order_id=?');
         $stmt->bind_param('i',$oid); $stmt->execute(); $order['items']=$stmt->get_result()->fetch_all(MYSQLI_ASSOC); $stmt->close(); return $order;
     }
+	/** Lấy danh sách các bài viết liên quan cùng danh mục, loại trừ bài viết hiện tại */
+public function get_related_articles(int $category_id, int $current_article_id, int $limit = 3): array
+{
+    $db = $this->db();
+    // Lấy bài cùng category_id, loại bỏ bài hiện tại, trạng thái 'Xuất bản'
+    $sql = "SELECT id, title, thumbnail, published_at 
+            FROM articles 
+            WHERE category_id = ? AND id != ? AND status = 'Xuất bản' 
+            ORDER BY published_at DESC, id DESC LIMIT ?";
+            
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param('iii', $category_id, $current_article_id, $limit);
+    $stmt->execute();
+    $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    
+    return $rows;
+}
 }
 
 $dataHelper = new DataHelper();
@@ -441,3 +480,7 @@ function record_vnpay_result($params){ global $dataHelper; return $dataHelper->r
 function get_vnpay_order_by_txn_ref($txnRef,$amount){ global $dataHelper; return $dataHelper->get_vnpay_order_by_txn_ref($txnRef,$amount); }
 /** Hàm cầu nối tra cứu đơn hàng theo mã đơn. */
 function get_order_by_id($id){ global $dataHelper; return $dataHelper->get_order_by_id($id); }
+/** Hàm cầu nối tăng lượt xem bài viết */
+function increment_article_view($id){ global $dataHelper; return $dataHelper->increment_article_view($id); }
+/** Hàm cầu nối lấy bài viết liên quan */
+function get_related_articles($cat_id, $current_id, $limit = 3){ global $dataHelper; return $dataHelper->get_related_articles($cat_id, $current_id, $limit); }
