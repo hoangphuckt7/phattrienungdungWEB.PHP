@@ -39,7 +39,7 @@ require_once __DIR__ . '/includes/header.php';
 
                 <div style="display: flex; gap: 20px; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
                     <span><i class="fas fa-user-edit text-primary"></i> Tác giả: <strong><?php echo sanitize($single_article['author']); ?></strong></span>
-                    <span><i class="far fa-calendar-alt text-primary"></i> <?php echo date('d/m/Y H:i', strtotime($single_article['created_at'])); ?></span>
+                    <span><i class="far fa-calendar-alt text-primary"></i> <?php echo date('d/m/Y H:i', strtotime($single_article['published_at'])); ?></span>
                 </div>
 
                 <div style="background: var(--primary-light); padding: 18px; border-radius: var(--radius-md); border-left: 4px solid var(--primary-color); font-weight: 500; margin-bottom: 24px; font-size: 1.05rem; line-height: 1.6;">
@@ -89,7 +89,7 @@ require_once __DIR__ . '/includes/header.php';
                             <img src="<?php echo get_image_src($article['thumbnail'], $article['title'], 'baiviet'); ?>" alt="<?php echo sanitize($article['title']); ?>">
                         </div>
                         <div class="article-body">
-                            <div class="article-date"><i class="far fa-calendar-alt"></i> <?php echo date('d/m/Y', strtotime($article['published_at'] ?? $article['created_at'])); ?></div>
+                            <div class="article-date"><i class="far fa-calendar-alt"></i> <?php echo date('d/m/Y', strtotime($article['published_at'])); ?></div>
                             <h2 class="article-title"><?php echo sanitize($article['title']); ?></h2>
                             <p class="article-summary"><?php echo sanitize($article['summary']); ?></p>
                             
