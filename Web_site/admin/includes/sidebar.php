@@ -20,14 +20,14 @@
         <!-- Danh sách các chức năng trong menu -->
         <div class="sidebar-menu">
             <div class="menu-category">HỆ THỐNG</div>
-            <a href="<?php echo BASE_URL; ?>/admin/index.php" class="menu-item active"><i class="fa-solid fa-chart-pie"></i><span>Bảng điều khiển</span></a>
+            <a href="<?php echo BASE_URL; ?>/admin/index.php" class="menu-item"><i class="fa-solid fa-chart-pie"></i><span>Bảng điều khiển</span></a>
             <a href="<?php echo BASE_URL; ?>/admin/danhsachsanpham.php" class="menu-item"><i class="fa-solid fa-mobile-screen-button"></i><span>Quản lý sản phẩm</span></a>
             <a href="<?php echo BASE_URL; ?>/admin/danhsachdanhmuc.php" class="menu-item"><i class="fa-solid fa-list"></i><span>Quản lý danh mục</span></a>
             <a href="<?php echo BASE_URL; ?>/admin/thanhtoan.php" class="menu-item"><i class="fa-solid fa-credit-card"></i><span>Quản lý thanh toán</span></a>
             <a href="<?php echo BASE_URL; ?>/admin/donhang.php" class="menu-item"><i class="fa-solid fa-cart-shopping"></i><span>Quản lý đơn hàng</span></a>
             <a href="<?php echo BASE_URL; ?>/admin/qlnguoidung.php" class="menu-item"><i class="fa-solid fa-users"></i><span>Quản lý tài khoản</span></a>
             <a href="<?php echo BASE_URL; ?>/admin/baiviet.php" class="menu-item"><i class="fa-solid fa-newspaper"></i><span>Bài viết</span></a>
-            <a href="#" class="menu-item"><i class="fa-solid fa-gears"></i><span>Cài đặt hệ thống</span></a>
+            <!-- <a href="#" class="menu-item"><i class="fa-solid fa-gears"></i><span>Cài đặt hệ thống</span></a> -->
         </div>
     </div>
 
