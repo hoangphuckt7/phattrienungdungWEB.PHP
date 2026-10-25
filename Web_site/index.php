@@ -99,9 +99,9 @@ $articles_preview = array_slice($articles, 0, 4);
                         <div class="article-date"><i class="far fa-calendar-alt"></i> <?php echo date('d/m/Y', strtotime($article['published_at'])); ?></div>
                         <h3 class="article-title"><?php echo sanitize($article['title']); ?></h3>
                         <p class="article-summary"><?php echo sanitize($article['summary']); ?></p>
-                        <!-- <a href="<?php echo BASE_URL; ?>/news.php?id=<?php echo $article['id']; ?>" class="btn btn-outline btn-sm" style="margin-top:auto; align-self: flex-start;">
+                        <a href="<?php echo BASE_URL; ?>/news.php?id=<?php echo $article['id']; ?>" class="btn btn-outline btn-sm" style="margin-top:auto; align-self: flex-start;">
                             Đọc chi tiết
-                        </a> -->
+                        </a>
                     </div>
                 </div>
             <?php endforeach; ?>
