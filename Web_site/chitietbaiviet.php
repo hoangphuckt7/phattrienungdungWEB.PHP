@@ -47,7 +47,7 @@ require_once __DIR__ . '/includes/header.php';
             <!-- Thông tin tác giả & ngày tháng -->
             <div style="display: flex; gap: 20px; color: #64748b; font-size: 0.95rem; margin-bottom: 24px; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px;">
                 <span><i class="fas fa-user-edit" style="color: #3b82f6;"></i> Tác giả: <strong><?php echo htmlspecialchars($single_article['author']); ?></strong></span>
-                <span><i class="far fa-calendar-alt" style="color: #3b82f6;"></i> <?php echo date('d/m/Y H:i', strtotime($single_article['published_at'] ?? $single_article['created_at'])); ?></span>
+                <span><i class="far fa-calendar-alt" style="color: #3b82f6;"></i> <?php echo date('d/m/Y H:i', strtotime($single_article['published_at'] )); ?></span>
                 <span><i class="fas fa-eye" style="color: #3b82f6;"></i> <?php echo number_format($single_article['view_count']); ?> lượt xem</span>
             </div>
 
